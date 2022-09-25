@@ -1,5 +1,5 @@
-import { Entity } from '@loopback/repository';
-export declare class Todo extends Entity {
+import { SoftDeleteEntity } from 'loopback4-soft-delete';
+export declare class Todo extends SoftDeleteEntity {
     id?: number;
     title: string;
     desc?: string;

@@ -7,7 +7,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Todo = void 0;
 const tslib_1 = require("tslib");
 const repository_1 = require("@loopback/repository");
-let Todo = class Todo extends repository_1.Entity {
+const loopback4_soft_delete_1 = require("loopback4-soft-delete");
+let Todo = class Todo extends loopback4_soft_delete_1.SoftDeleteEntity {
     constructor(data) {
         super(data);
     }

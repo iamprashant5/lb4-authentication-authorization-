@@ -5,13 +5,14 @@
 
 import {Entity, model, property} from '@loopback/repository';
 import { Permissions } from 'loopback4-authorization';
+import { SoftDeleteEntity } from 'loopback4-soft-delete';
 
 @model({
   settings:{
     postgresql: {schema: 'public', table: 'todo'},
   }
 })
-export class Todo extends Entity  {
+export class Todo extends SoftDeleteEntity {
   @property({
     type: 'number',
     id: true,

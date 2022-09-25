@@ -7,10 +7,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TodoRepository = void 0;
 const tslib_1 = require("tslib");
 const core_1 = require("@loopback/core");
-const repository_1 = require("@loopback/repository");
+const loopback4_soft_delete_1 = require("loopback4-soft-delete");
 const datasources_1 = require("../datasources");
 const models_1 = require("../models");
-let TodoRepository = class TodoRepository extends repository_1.DefaultCrudRepository {
+let TodoRepository = class TodoRepository extends loopback4_soft_delete_1.SoftCrudRepository {
     constructor(dataSource) {
         super(models_1.Todo, dataSource);
     }

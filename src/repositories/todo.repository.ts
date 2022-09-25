@@ -5,10 +5,11 @@
 
 import {inject} from '@loopback/core';
 import {DefaultCrudRepository} from '@loopback/repository';
+import { SoftCrudRepository } from 'loopback4-soft-delete';
 import {DbDataSource, PostgresDataSource} from '../datasources';
 import {Todo, TodoRelations} from '../models';
 
-export class TodoRepository extends DefaultCrudRepository<
+export class TodoRepository extends SoftCrudRepository<
   Todo,
   typeof Todo.prototype.id,
   TodoRelations

@@ -60,10 +60,8 @@ let UserController = class UserController {
     async login(credentials) {
         // ensure the user exists, and the password is correct
         const user = await this.userService.verifyCredentials(credentials);
-        // console.log(user,"login")
         // convert a User object into a UserProfile object (reduced set of properties)
         const userProfile = this.userService.convertToUserProfile(user);
-        console.log(userProfile, "userProfile");
         // create a JSON Web Token based on the user profile
         const token = await this.jwtService.generateToken(userProfile);
         return { token };

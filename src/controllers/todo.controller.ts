@@ -5,6 +5,8 @@
 
 import { authenticate } from '@loopback/authentication';
 import {inject} from '@loopback/core';
+import {SoftDeleteEntity} from 'loopback4-soft-delete'
+
 import {
   Count,
   CountSchema,

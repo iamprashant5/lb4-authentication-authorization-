@@ -21,6 +21,8 @@ import {genSalt, hash} from 'bcryptjs';
 import { kMaxLength } from 'buffer';
 import _, { filter } from 'lodash';
 import {UserDataRepository} from '../repositories';
+import {SoftDeleteEntity} from 'loopback4-soft-delete'
+
 
 @model({
   settings: {

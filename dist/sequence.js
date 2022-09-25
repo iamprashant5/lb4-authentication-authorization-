@@ -42,7 +42,7 @@ let MySequence = class MySequence {
             }
             const isAccessAllowed = await this.checkAuthorisation(authUser.permissions, // do authUser.permissions if using method #1
             request);
-            console.log(authUser, 'auth', authUser.permissions);
+            //    console.log(authUser,'auth',authUser.permissions)
             // Checking access to route here
             if (!isAccessAllowed) {
                 throw new rest_1.HttpErrors.Forbidden("NotAllowedAccess" /* AuthorizeErrorKeys.NotAllowedAccess */);
