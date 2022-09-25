@@ -57,6 +57,12 @@ tslib_1.__decorate([
     }),
     tslib_1.__metadata("design:type", Object)
 ], Todo.prototype, "tag", void 0);
+tslib_1.__decorate([
+    (0, repository_1.property)({
+        type: 'string',
+    }),
+    tslib_1.__metadata("design:type", String)
+], Todo.prototype, "string", void 0);
 Todo = tslib_1.__decorate([
     (0, repository_1.model)({
         settings: {

@@ -17,6 +17,7 @@ const morgan_1 = tslib_1.__importDefault(require("morgan"));
 const path_1 = tslib_1.__importDefault(require("path"));
 const datasources_1 = require("./datasources");
 const sequence_1 = require("./sequence");
+const loopback4_authorization_1 = require("loopback4-authorization");
 class TodoListApplication extends (0, boot_1.BootMixin)((0, service_proxy_1.ServiceMixin)((0, repository_1.RepositoryMixin)(rest_1.RestApplication))) {
     constructor(options = {}) {
         super(options);
@@ -34,6 +35,10 @@ class TodoListApplication extends (0, boot_1.BootMixin)((0, service_proxy_1.Serv
         this.component(authentication_jwt_1.JWTAuthenticationComponent);
         // Bind datasource
         this.dataSource(datasources_1.DbDataSource, authentication_jwt_1.UserServiceBindings.DATASOURCE_NAME);
+        this.bind(loopback4_authorization_1.AuthorizationBindings.CONFIG).to({
+            allowAlwaysPaths: ['/explorer/'],
+        });
+        this.component(loopback4_authorization_1.AuthorizationComponent);
         this.projectRoot = __dirname;
         // Customize @loopback/boot Booter Conventions here
         this.bootOptions = {

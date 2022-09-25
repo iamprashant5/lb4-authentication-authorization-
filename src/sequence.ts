@@ -10,7 +10,10 @@ import {
     USER_PROFILE_NOT_FOUND,
   } from '@loopback/authentication';
 import { inject } from '@loopback/core';
-import { RequestContext, SequenceHandler,FindRoute, Send,ParseParams, InvokeMethod, Reject, SequenceActions, } from '@loopback/rest';
+import { repository } from '@loopback/repository';
+import { RequestContext, SequenceHandler,FindRoute, Send,ParseParams, InvokeMethod, Reject, SequenceActions, HttpErrors, } from '@loopback/rest';
+import { AuthorizationBindings, AuthorizeErrorKeys, AuthorizeFn } from 'loopback4-authorization';
+import { UserDataRepository } from './repositories';
 // import { Send } from 'express-serve-static-core';
   // ------------------------------------
   export class MySequence implements SequenceHandler {
@@ -23,6 +26,10 @@ import { RequestContext, SequenceHandler,FindRoute, Send,ParseParams, InvokeMeth
     @inject(SequenceActions.INVOKE_METHOD) protected invoke: InvokeMethod,
     @inject(SequenceActions.SEND) protected send: Send,
     @inject(SequenceActions.REJECT) protected reject: Reject,
+    @inject(AuthorizationBindings.AUTHORIZE_ACTION)
+    protected checkAuthorisation: AuthorizeFn,
+    @repository(UserDataRepository)
+    protected userDataRepository: UserDataRepository,
     ) {}
     async handle(context: RequestContext) {
       try {
@@ -31,11 +38,25 @@ import { RequestContext, SequenceHandler,FindRoute, Send,ParseParams, InvokeMeth
         // - enable jwt auth -
         // call authentication action
         // ---------- ADD THIS LINE -------------
-        await this.authenticateRequest(request);
         const args = await this.parseParams(request, route);
+       const authUser:any = await this.authenticateRequest(request);
+       if(authUser){
+        const usrData = await this.userDataRepository.findOne({where:{id:authUser.id}})
+        authUser.permissions = usrData?.permissions
+       }
+       const isAccessAllowed: boolean = await this.checkAuthorisation(
+           authUser.permissions, // do authUser.permissions if using method #1
+           request,
+           );
+        //    console.log(authUser,'auth',authUser.permissions)
+           // Checking access to route here
+           if (!isAccessAllowed) {
+               throw new HttpErrors.Forbidden(AuthorizeErrorKeys.NotAllowedAccess);
+            }
         const result = await this.invoke(route, args);
         this.send(response, result);
       } catch (err) {
+        console.log(err)
         // ---------- ADD THIS SNIPPET -------------
         // if error is coming from the JWT authentication extension
         // make the statusCode 401

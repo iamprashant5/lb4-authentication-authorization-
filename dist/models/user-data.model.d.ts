@@ -1,5 +1,6 @@
 import { Entity } from '@loopback/repository';
-export declare class UserData extends Entity {
+import { Permissions } from 'loopback4-authorization';
+export declare class UserData extends Entity implements Permissions<string> {
     id: string;
     realm: string;
     username: string;
@@ -7,6 +8,7 @@ export declare class UserData extends Entity {
     emailVerification: boolean;
     verificationToken: string;
     password: string;
+    permissions: string[];
     constructor(data?: Partial<UserData>);
 }
 export interface UserDataRelations {

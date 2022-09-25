@@ -7,6 +7,7 @@ export declare class Todo extends Entity {
     remindAtAddress?: string;
     remindAtGeo?: string;
     tag?: any;
+    string?: string;
     constructor(data?: Partial<Todo>);
 }
 export interface TodoRelations {

@@ -18,7 +18,8 @@ import {
 } from '@loopback/rest';
 import {SecurityBindings, securityId, UserProfile} from '@loopback/security';
 import {genSalt, hash} from 'bcryptjs';
-import _ from 'lodash';
+import { kMaxLength } from 'buffer';
+import _, { filter } from 'lodash';
 import {UserDataRepository} from '../repositories';
 
 @model({
@@ -94,7 +95,7 @@ export class UserController {
   ): Promise<{token: string}> {
     // ensure the user exists, and the password is correct
     const user = await this.userService.verifyCredentials(credentials);
-    console.log(user,"login")
+   
     // convert a User object into a UserProfile object (reduced set of properties)
     const userProfile = this.userService.convertToUserProfile(user);
 
@@ -165,6 +166,7 @@ export class UserController {
           .get();
         savedUser.password = password;
         savedUser.emailVerification = savedUser.emailVerified;
+        savedUser.permissions =['getTodos','postTodos']
         delete savedUser.emailVerified;
       
         // also save in postgres database

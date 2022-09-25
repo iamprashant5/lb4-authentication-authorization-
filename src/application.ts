@@ -19,6 +19,8 @@ import path from 'path';
 import { DbDataSource } from './datasources';
 import {MySequence} from './sequence';
 
+import {AuthorizationBindings,AuthorizationComponent} from 'loopback4-authorization'
+
 export {ApplicationConfig};
 
 export class TodoListApplication extends BootMixin(
@@ -44,6 +46,10 @@ export class TodoListApplication extends BootMixin(
     // Bind datasource
     this.dataSource(DbDataSource, UserServiceBindings.DATASOURCE_NAME);
 
+    this.bind(AuthorizationBindings.CONFIG).to({
+      allowAlwaysPaths: ['/explorer/'],
+    });
+    this.component(AuthorizationComponent);
     this.projectRoot = __dirname;
     // Customize @loopback/boot Booter Conventions here
     this.bootOptions = {

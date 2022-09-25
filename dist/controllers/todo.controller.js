@@ -10,6 +10,7 @@ const authentication_1 = require("@loopback/authentication");
 const core_1 = require("@loopback/core");
 const repository_1 = require("@loopback/repository");
 const rest_1 = require("@loopback/rest");
+const loopback4_authorization_1 = require("loopback4-authorization");
 const models_1 = require("../models");
 const repositories_1 = require("../repositories");
 let TodoController = class TodoController {
@@ -38,7 +39,15 @@ let TodoController = class TodoController {
         return this.todoRepository.findById(id, filter);
     }
     async find(filter) {
-        return this.todoRepository.find(filter);
+        return new Promise((resolve, reject) => {
+            try {
+                resolve(this.todoRepository.find(filter));
+            }
+            catch (error) {
+                console.log(error);
+                reject(error);
+            }
+        });
     }
     async replaceById(id, todo) {
         await this.todoRepository.replaceById(id, todo);
@@ -46,6 +55,7 @@ let TodoController = class TodoController {
     async updateById(id, todo) {
         await this.todoRepository.updateById(id, todo);
     }
+    // @authorize({permissions:['getTodos']})
     async deleteById(id) {
         await this.todoRepository.deleteById(id);
     }
@@ -57,6 +67,7 @@ let TodoController = class TodoController {
     }
 };
 tslib_1.__decorate([
+    (0, loopback4_authorization_1.authorize)({ permissions: ['postTodos'] }),
     (0, rest_1.post)('/todos', {
         responses: {
             '200': {
@@ -99,6 +110,7 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:returntype", Promise)
 ], TodoController.prototype, "findById", null);
 tslib_1.__decorate([
+    (0, loopback4_authorization_1.authorize)({ permissions: ['getTodos'] }),
     (0, rest_1.get)('/todos', {
         responses: {
             '200': {

@@ -59,6 +59,13 @@ tslib_1.__decorate([
     }),
     tslib_1.__metadata("design:type", String)
 ], UserData.prototype, "password", void 0);
+tslib_1.__decorate([
+    (0, repository_1.property)({
+        type: 'array',
+        itemType: 'string'
+    }),
+    tslib_1.__metadata("design:type", Array)
+], UserData.prototype, "permissions", void 0);
 UserData = tslib_1.__decorate([
     (0, repository_1.model)(),
     tslib_1.__metadata("design:paramtypes", [Object])

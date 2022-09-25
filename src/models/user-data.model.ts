@@ -1,7 +1,8 @@
 import {Entity, model, property} from '@loopback/repository';
+import { Permissions } from 'loopback4-authorization';
 
 @model()
-export class UserData extends Entity {
+export class UserData extends Entity implements Permissions<string> {
   @property({
     type: 'string',
     id: true,
@@ -45,7 +46,11 @@ export class UserData extends Entity {
     required: true,
   })
   password: string;
-
+  @property({
+    type:'array',
+    itemType:'string'
+  })
+    permissions:string[];
 
   constructor(data?: Partial<UserData>) {
     super(data);

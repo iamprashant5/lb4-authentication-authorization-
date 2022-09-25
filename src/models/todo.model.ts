@@ -4,13 +4,14 @@
 // License text available at https://opensource.org/licenses/MIT
 
 import {Entity, model, property} from '@loopback/repository';
+import { Permissions } from 'loopback4-authorization';
 
 @model({
   settings:{
     postgresql: {schema: 'public', table: 'todo'},
   }
 })
-export class Todo extends Entity {
+export class Todo extends Entity  {
   @property({
     type: 'number',
     id: true,
@@ -51,6 +52,11 @@ export class Todo extends Entity {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   tag?: any;
 
+
+  @property({
+    type: 'string',
+  })
+  string?: string;
   constructor(data?: Partial<Todo>) {
     super(data);
   }

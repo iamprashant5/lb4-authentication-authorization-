@@ -24,6 +24,7 @@ import {
   put,
   requestBody,
 } from '@loopback/rest';
+import { authorize } from 'loopback4-authorization';
 import {Todo} from '../models';
 import {TodoRepository} from '../repositories';
 import {Geocoder} from '../services';
@@ -35,7 +36,7 @@ export class TodoController {
     public todoRepository: TodoRepository,
     @inject('services.Geocoder') protected geoService: Geocoder,
   ) {}
-
+  @authorize({permissions:['postTodos']})
   @post('/todos', {
     responses: {
       '200': {
@@ -95,7 +96,7 @@ export class TodoController {
   ): Promise<Todo> {
     return this.todoRepository.findById(id, filter);
   }
-
+  @authorize({permissions:['getTodos']})
   @get('/todos', {
     responses: {
       '200': {
@@ -112,7 +113,16 @@ export class TodoController {
     },
   })
   async find(@param.filter(Todo) filter?: Filter<Todo>): Promise<Todo[]> {
-    return this.todoRepository.find(filter);
+   return new Promise((resolve,reject)=>{
+     try {
+       resolve(this.todoRepository.find(filter));
+      
+     } catch (error) {
+      console.log(error)
+      reject(error)
+     }
+
+   })
   }
 
   @put('/todos/{id}', {
@@ -149,7 +159,7 @@ export class TodoController {
   ): Promise<void> {
     await this.todoRepository.updateById(id, todo);
   }
-
+  // @authorize({permissions:['getTodos']})
   @del('/todos/{id}', {
     responses: {
       '204': {
