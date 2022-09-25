@@ -14,7 +14,7 @@ export class Todo extends Entity {
   @property({
     type: 'number',
     id: true,
-    generated: false,
+    generated: true,
   })
   id?: number;
 
@@ -50,6 +50,11 @@ export class Todo extends Entity {
   })
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   tag?: any;
+
+ @property({
+    type:'string'
+ })
+ string?:String
 
   constructor(data?: Partial<Todo>) {
     super(data);

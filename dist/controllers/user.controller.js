@@ -84,7 +84,7 @@ let UserController = class UserController {
                 savedUser.password = password;
                 savedUser.emailVerification = savedUser.emailVerified;
                 delete savedUser.emailVerified;
-                // console.log(savedUser,'ss',data)
+                // also save in postgres database
                 await this.userDataRepository.create(savedUser);
                 resolve(savedUser);
             }
